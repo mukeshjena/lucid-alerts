@@ -5,6 +5,10 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -34,19 +38,20 @@ jobs:
         VERSION=${GITHUB_REF#refs/tags/v}
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         
-        # Generate changelog from commits
-        CHANGELOG=$(git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 HEAD^)..HEAD)
+        # Generate changelog from commits (handle case where no previous tag exists)
+        if git describe --tags --abbrev=0 HEAD^ 2>/dev/null; then
+          CHANGELOG=$(git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 HEAD^)..HEAD)
+        else
+          CHANGELOG=$(git log --pretty=format:"- %s")
+        fi
         echo "changelog<<EOF" >> $GITHUB_OUTPUT
         echo "$CHANGELOG" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
 
     - name: Create GitHub Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release v${{ steps.changelog.outputs.version }}
+        name: Release v${{ steps.changelog.outputs.version }}
         body: |
           ## Changes in v${{ steps.changelog.outputs.version }}
           
@@ -65,13 +70,8 @@ jobs:
           ```
         draft: false
         prerelease: false
-
-    - name: Upload Release Assets
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/lucid-alerts.min.js
-        asset_name: lucid-alerts.min.js
-        asset_content_type: application/javascript
+        files: |
+          dist/lucid-alerts.min.js
+          dist/lucid-alerts.js
+          dist/lucid-alerts.esm.js
+          dist/lucid-alerts.d.ts

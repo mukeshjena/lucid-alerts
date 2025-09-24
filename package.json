@@ -30,7 +30,7 @@
     "minify": "terser dist/lucid-alerts.js -o dist/lucid-alerts.min.js --compress --mangle",
     "build:all": "npm run build && npm run minify",
     "prepublishOnly": "npm run build:all",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node test/basic.test.js",
     "lint": "eslint src/ --ext .js",
     "lint:fix": "eslint src/ --ext .js --fix",
     "format": "prettier --write \"src/**/*.{js,css}\"",
