@@ -17,6 +17,9 @@ Thank you for your interest in contributing to LucidAlerts! We welcome contribut
    # Click the "Fork" button on GitHub, then clone your fork
    git clone https://github.com/yourusername/lucid-alerts.git
    cd lucid-alerts
+   
+   # Add upstream remote to keep your fork updated
+   git remote add upstream https://github.com/mukeshjena/lucid-alerts.git
    ```
 
 2. **Install dependencies**
@@ -248,9 +251,9 @@ We especially welcome contributions in these areas:
 
 ## 📞 Getting Help
 
-- 💬 [GitHub Discussions](https://github.com/yourusername/lucid-alerts/discussions)
-- 🐛 [Issue Tracker](https://github.com/yourusername/lucid-alerts/issues)
-- 📧 Email: [your-email@example.com]
+- 💬 [GitHub Discussions](https://github.com/mukeshjena/lucid-alerts/discussions)
+- 🐛 [Issue Tracker](https://github.com/mukeshjena/lucid-alerts/issues)
+- 📧 Email: muk3shjena@gmail.com
 
 ## 🏆 Recognition
 
