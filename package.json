@@ -71,7 +71,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mukeshjena/lucid-alerts.git"
+    "url": "git+https://github.com/mukeshjena/lucid-alerts.git"
   },
   "bugs": {
     "url": "https://github.com/mukeshjena/lucid-alerts/issues"
