@@ -1,0 +1,97 @@
+{
+  "name": "lucid-alerts",
+  "version": "1.0.0",
+  "description": "A modern, lightweight, and highly customizable JavaScript library for alerts and notifications - an alternative to SweetAlert2 and Notyf",
+  "type": "module",
+  "main": "dist/lucid-alerts.js",
+  "module": "dist/lucid-alerts.esm.js",
+  "browser": "dist/lucid-alerts.min.js",
+  "unpkg": "dist/lucid-alerts.min.js",
+  "jsdelivr": "dist/lucid-alerts.min.js",
+  "types": "dist/lucid-alerts.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/lucid-alerts.esm.js",
+      "require": "./dist/lucid-alerts.js",
+      "browser": "./dist/lucid-alerts.min.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/",
+    "src/",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "minify": "terser dist/lucid-alerts.js -o dist/lucid-alerts.min.js --compress --mangle",
+    "build:all": "npm run build && npm run minify",
+    "prepublishOnly": "npm run build:all",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/ --ext .js",
+    "lint:fix": "eslint src/ --ext .js --fix",
+    "format": "prettier --write \"src/**/*.{js,css}\"",
+    "format:check": "prettier --check \"src/**/*.{js,css}\"",
+    "demo": "cd demo && python -m http.server 8000",
+    "version": "npm run build:all && git add dist/"
+  },
+  "keywords": [
+    "alert",
+    "notification",
+    "modal",
+    "popup",
+    "sweetalert",
+    "sweetalert2",
+    "notyf",
+    "toast",
+    "dialog",
+    "javascript",
+    "vanilla-js",
+    "responsive",
+    "dark-mode",
+    "light-mode",
+    "typescript",
+    "es6",
+    "modern",
+    "lightweight",
+    "customizable",
+    "promise",
+    "async",
+    "form",
+    "validation"
+  ],
+  "author": {
+    "name": "mukeshjena",
+    "email": "muk3shjena@gmail.com",
+    "url": "https://github.com/mukeshjena"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mukeshjena/lucid-alerts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mukeshjena/lucid-alerts/issues"
+  },
+  "homepage": "https://github.com/mukeshjena/lucid-alerts#readme",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/mukeshjena"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-url": "^8.0.2",
+    "rollup": "^4.9.6",
+    "rollup-plugin-postcss": "^4.0.2",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

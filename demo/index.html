@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LucidAlerts Demo - Modern Alert & Notification Library</title>
+    
+    <!-- Highlight.js CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #6b7280;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --info-color: #06b6d4;
+            --purple-color: #8b5cf6;
+            
+            /* Light theme */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --border-color: #e5e7eb;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+            --code-bg: #1f2937;
+            --code-text: #f9fafb;
+        }
+
+        /* Auto dark mode detection */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #1f2937;
+                --bg-secondary: #111827;
+                --bg-tertiary: #374151;
+                --text-primary: #f9fafb;
+                --text-secondary: #d1d5db;
+                --text-muted: #9ca3af;
+                --border-color: #374151;
+                --shadow-light: rgba(0, 0, 0, 0.3);
+                --shadow-medium: rgba(0, 0, 0, 0.4);
+                --code-bg: #0f172a;
+                --code-text: #e2e8f0;
+            }
+        }
+
+        /* Manual dark mode override */
+        [data-theme="dark"] {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --bg-tertiary: #374151;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --text-muted: #9ca3af;
+            --border-color: #374151;
+            --shadow-light: rgba(0, 0, 0, 0.3);
+            --shadow-medium: rgba(0, 0, 0, 0.4);
+            --code-bg: #0f172a;
+            --code-text: #e2e8f0;
+        }
+
+        /* Manual light mode override */
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --border-color: #e5e7eb;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-medium: rgba(0, 0, 0, 0.15);
+            --code-bg: #1f2937;
+            --code-text: #f9fafb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transition: all 0.3s ease;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* Enhanced Selection */
+        ::selection {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        ::-moz-selection {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), var(--purple-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            padding: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+            min-width: max-content;
+        }
+
+        .nav-tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .nav-tab:hover:not(.active) {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .demo-section {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .demo-section h2 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .demo-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .demo-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .demo-btn:hover {
+            opacity: 0.9;
+        }
+
+        .demo-btn:active {
+            opacity: 0.8;
+        }
+
+        .demo-btn:focus-visible {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        .btn-primary { background: var(--primary-color); color: white; }
+        .btn-success { background: var(--success-color); color: white; }
+        .btn-error { background: var(--error-color); color: white; }
+        .btn-warning { background: var(--warning-color); color: white; }
+        .btn-info { background: var(--info-color); color: white; }
+        .btn-purple { background: var(--purple-color); color: white; }
+        .btn-secondary { background: var(--secondary-color); color: white; }
+
+        .theme-controls {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .theme-controls h3 {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .code-block {
+            position: relative;
+            margin: 1rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .code-title {
+            color: var(--code-text);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-color);
+            opacity: 0.8;
+        }
+
+        .copy-btn.copied {
+            background: var(--success-color);
+        }
+
+        .code-content {
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        .code-content pre {
+            margin: 0;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .code-content code {
+            color: var(--code-text);
+        }
+
+        .integration-guide {
+            background: var(--bg-primary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .integration-guide h2 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.75rem;
+        }
+
+        .integration-guide h3 {
+            color: var(--text-primary);
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.25rem;
+        }
+
+        .integration-guide p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .integration-guide ol, .integration-guide ul {
+            color: var(--text-secondary);
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .integration-guide li {
+            margin-bottom: 0.5rem;
+        }
+
+        .position-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .position-btn {
+            padding: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .footer {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .demo-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            .header {
+                margin-bottom: 2rem;
+                padding: 1rem 0;
+            }
+
+            .demo-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .demo-section {
+                padding: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .demo-btn {
+                width: 100%;
+                min-width: auto;
+            }
+
+            .nav-tabs {
+                padding: 0.25rem;
+            }
+
+            .nav-tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            .position-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .demo-section {
+                padding: 1rem;
+            }
+
+            .code-content {
+                padding: 0.75rem;
+            }
+
+            .code-content pre {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Highlight.js theme override for dark mode */
+        @media (prefers-color-scheme: dark) {
+            .hljs {
+                background: var(--code-bg) !important;
+                color: var(--code-text) !important;
+            }
+        }
+
+        [data-theme="dark"] .hljs {
+            background: var(--code-bg) !important;
+            color: var(--code-text) !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>✨ LucidAlerts</h1>
+            <p>A beautiful, modern alert & notification library with smooth animations, clean design, and built-in dark mode support. Experience the next generation of user notifications with comprehensive examples and integration guides.</p>
+        </header>
+
+        <div class="theme-controls">
+            <h3>🎨 Theme Controls</h3>
+            <div class="button-group" style="justify-content: center;">
+                <button class="demo-btn btn-secondary" onclick="setTheme('light')">☀️ Light</button>
+                <button class="demo-btn btn-secondary" onclick="setTheme('dark')">🌙 Dark</button>
+                <button class="demo-btn btn-secondary" onclick="setTheme('auto')">🔄 Auto</button>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('demos')">🎮 Interactive Demos</button>
+            <button class="nav-tab" onclick="showTab('examples')">📝 Code Examples</button>
+            <button class="nav-tab" onclick="showTab('integration')">🔧 Integration Guide</button>
+            <button class="nav-tab" onclick="showTab('api')">📚 API Reference</button>
+        </div>
+
+        <!-- Interactive Demos Tab -->
+        <div id="demos" class="tab-content active">
+            <div class="demo-grid">
+                <!-- Basic Alerts -->
+                <div class="demo-section">
+                    <h2>📢 Basic Alerts</h2>
+                    <p>Simple alert dialogs with different types and styling.</p>
+                    
+                    <div class="button-group">
+                        <button class="demo-btn btn-primary" onclick="showBasicAlert()">Basic Alert</button>
+                        <button class="demo-btn btn-success" onclick="showSuccessAlert()">Success</button>
+                        <button class="demo-btn btn-error" onclick="showErrorAlert()">Error</button>
+                        <button class="demo-btn btn-warning" onclick="showWarningAlert()">Warning</button>
+                        <button class="demo-btn btn-info" onclick="showInfoAlert()">Info</button>
+                        <button class="demo-btn btn-purple" onclick="showQuestionAlert()">Question</button>
+                    </div>
+                </div>
+
+                <!-- Advanced Alerts -->
+                <div class="demo-section">
+                    <h2>🚀 Advanced Alerts</h2>
+                    <p>Alerts with custom options, timers, and callbacks.</p>
+                    
+                    <div class="button-group">
+                        <button class="demo-btn btn-primary" onclick="showTimerAlert()">Timer Alert</button>
+                        <button class="demo-btn btn-success" onclick="showCallbackAlert()">With Callback</button>
+                        <button class="demo-btn btn-warning" onclick="showConfirmAlert()">Confirmation</button>
+                        <button class="demo-btn btn-info" onclick="showCustomAlert()">Custom Styled</button>
+                    </div>
+                </div>
+
+                <!-- Form Alerts -->
+                <div class="demo-section">
+                    <h2>📝 Form Alerts</h2>
+                    <p>Interactive alerts with input fields and forms.</p>
+                    
+                    <div class="button-group">
+                        <button class="demo-btn btn-primary" onclick="showInputAlert()">Text Input</button>
+                        <button class="demo-btn btn-success" onclick="showSelectAlert()">Select Options</button>
+                        <button class="demo-btn btn-warning" onclick="showMultiInputAlert()">Multiple Inputs</button>
+                        <button class="demo-btn btn-info" onclick="showFormWizard()">Form Wizard</button>
+                    </div>
+                </div>
+
+                <!-- Notifications -->
+                <div class="demo-section notification-demo">
+                    <h2>🔔 Notifications</h2>
+                    <p>Toast notifications with different positions and types.</p>
+                    
+                    <div class="position-grid">
+                        <button class="demo-btn position-btn btn-secondary" onclick="showNotification('top-left')">Top Left</button>
+                        <button class="demo-btn position-btn btn-secondary" onclick="showNotification('top-center')">Top Center</button>
+                        <button class="demo-btn position-btn btn-secondary" onclick="showNotification('top-right')">Top Right</button>
+                        <button class="demo-btn position-btn btn-secondary" onclick="showNotification('bottom-left')">Bottom Left</button>
+                        <button class="demo-btn position-btn btn-secondary" onclick="showNotification('bottom-center')">Bottom Center</button>
+                        <button class="demo-btn position-btn btn-secondary" onclick="showNotification('bottom-right')">Bottom Right</button>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="demo-btn btn-success" onclick="showProgressNotification()">With Progress</button>
+                        <button class="demo-btn btn-warning" onclick="showPersistentNotification()">Persistent</button>
+                        <button class="demo-btn btn-error" onclick="showActionNotification()">With Actions</button>
+                    </div>
+                </div>
+
+                <!-- Utility Functions -->
+                <div class="demo-section">
+                    <h2>🛠️ Utility Functions</h2>
+                    <p>Management and utility functions for alerts and notifications.</p>
+                    
+                    <div class="button-group">
+                        <button class="demo-btn btn-secondary" onclick="showMultipleAlerts()">Multiple Alerts</button>
+                        <button class="demo-btn btn-info" onclick="showActiveCount()">Active Count</button>
+                        <button class="demo-btn btn-warning" onclick="LucidAlerts.closeAll()">Close All</button>
+                        <button class="demo-btn btn-error" onclick="showStressTest()">Stress Test</button>
+                    </div>
+                </div>
+
+                <!-- Theme Demo -->
+                <div class="demo-section">
+                    <h2>🎨 Theme Demo</h2>
+                    <p>Test alerts and notifications in different themes.</p>
+                    
+                    <div class="button-group">
+                        <button class="demo-btn btn-primary" onclick="showThemeDemo('light')">Light Theme Demo</button>
+                        <button class="demo-btn btn-secondary" onclick="showThemeDemo('dark')">Dark Theme Demo</button>
+                        <button class="demo-btn btn-purple" onclick="showThemeDemo('auto')">Auto Theme Demo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Code Examples Tab -->
+        <div id="examples" class="tab-content">
+            <div class="demo-grid">
+                <div class="demo-section">
+                    <h2>📝 Basic Usage Examples</h2>
+                    <p>Simple examples to get you started with LucidAlerts.</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">Basic Alerts</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-javascript">// Basic success alert
+LucidAlerts.success('Operation completed successfully!');
+
+// Error alert with title
+LucidAlerts.error({
+    title: 'Error!',
+    text: 'Something went wrong. Please try again.'
+});
+
+// Warning with timer
+LucidAlerts.warning({
+    title: 'Warning',
+    text: 'This will auto-close in 3 seconds',
+    timer: 3000
+});
+
+// Info alert
+LucidAlerts.info('Here is some important information.');
+
+// Question/Confirmation
+LucidAlerts.question('Are you sure you want to delete this item?')
+    .then(result => {
+        if (result) {
+            console.log('User confirmed');
+        }
+    });</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-section">
+                    <h2>🔔 Notification Examples</h2>
+                    <p>Toast notifications with various configurations.</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">Notifications</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-javascript">// Basic notification
+LucidAlerts.notify({
+    type: 'success',
+    message: 'File uploaded successfully!'
+});
+
+// Notification with custom position
+LucidAlerts.notify({
+    type: 'info',
+    title: 'New Message',
+    message: 'You have received a new message.',
+    position: 'top-right',
+    duration: 5000
+});
+
+// Notification with progress bar
+LucidAlerts.notify({
+    type: 'info',
+    title: 'Uploading...',
+    message: 'Please wait while we upload your file.',
+    position: 'bottom-right',
+    showProgress: true,
+    duration: 10000
+});
+
+// Persistent notification (no auto-close)
+LucidAlerts.notify({
+    type: 'warning',
+    title: 'Important Notice',
+    message: 'Please update your password.',
+    position: 'top-center',
+    persistent: true
+});</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-section">
+                    <h2>📝 Form Input Examples</h2>
+                    <p>Interactive alerts with form inputs.</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">Form Inputs</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-javascript">// Simple text input
+LucidAlerts.input({
+    title: 'Enter Your Name',
+    placeholder: 'Your name here...',
+    confirmText: 'Submit'
+}).then(result => {
+    if (result.isConfirmed) {
+        console.log('Name:', result.value);
+    }
+});
+
+// Select dropdown
+LucidAlerts.select({
+    title: 'Choose Your Country',
+    options: [
+        { value: 'us', text: 'United States' },
+        { value: 'uk', text: 'United Kingdom' },
+        { value: 'ca', text: 'Canada' }
+    ]
+}).then(result => {
+    if (result.isConfirmed) {
+        console.log('Selected:', result.value);
+    }
+});
+
+// Multiple inputs
+LucidAlerts.form({
+    title: 'User Registration',
+    inputs: [
+        { name: 'username', type: 'text', placeholder: 'Username' },
+        { name: 'email', type: 'email', placeholder: 'Email' },
+        { name: 'password', type: 'password', placeholder: 'Password' }
+    ]
+}).then(result => {
+    if (result.isConfirmed) {
+        console.log('Form data:', result.values);
+    }
+});</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-section">
+                    <h2>🎨 Advanced Customization</h2>
+                    <p>Advanced options and customization examples.</p>
+                    
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-title">Advanced Options</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-javascript">// Custom styled alert
+LucidAlerts.success({
+    title: 'Custom Alert',
+    text: 'This alert has custom styling',
+    confirmText: 'Awesome!',
+    cancelText: 'Maybe Later',
+    showCancel: true,
+    customClass: 'my-custom-alert'
+});
+
+// Alert with callback
+LucidAlerts.question('Delete this item?')
+    .then(result => {
+        if (result) {
+            return LucidAlerts.success('Item deleted!');
+        } else {
+            return LucidAlerts.info('Deletion cancelled');
+        }
+    });
+
+// Theme management
+LucidAlerts.setTheme('dark');  // Set dark theme
+LucidAlerts.setTheme('light'); // Set light theme
+LucidAlerts.setTheme('auto');  // Auto theme (follows system)
+
+// Utility functions
+console.log('Active alerts:', LucidAlerts.activeAlerts.size);
+console.log('Active notifications:', LucidAlerts.activeNotifications.size);
+
+// Close all alerts and notifications
+LucidAlerts.closeAll();</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integration Guide Tab -->
+        <div id="integration" class="tab-content">
+            <div class="integration-guide">
+                <h2>🔧 Integration Guide</h2>
+                <p>Learn how to integrate LucidAlerts into your application with these comprehensive guides.</p>
+
+                <h3>📦 Installation</h3>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">NPM Installation</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-bash">npm install lucid-alerts</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">CDN Installation</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-html">&lt;script src="https://cdn.jsdelivr.net/npm/lucid-alerts@latest/dist/lucid-alerts.min.js">&lt;/script></code></pre>
+                    </div>
+                </div>
+
+                <h3>🚀 Quick Start</h3>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">ES6 Modules</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">import LucidAlerts from 'lucid-alerts';
+
+// Show a success alert
+LucidAlerts.success('Welcome to your application!');</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">CommonJS</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">const LucidAlerts = require('lucid-alerts');
+
+// Show a success alert
+LucidAlerts.success('Welcome to your application!');</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Browser Script Tag</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-html">&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+    &lt;title>My App&lt;/title>
+&lt;/head>
+&lt;body>
+    &lt;script src="path/to/lucid-alerts.min.js">&lt;/script>
+    &lt;script>
+        // LucidAlerts is now available globally
+        LucidAlerts.success('Hello World!');
+    &lt;/script>
+&lt;/body>
+&lt;/html></code></pre>
+                    </div>
+                </div>
+
+                <h3>⚛️ React Integration</h3>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">React Component</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">import React from 'react';
+import LucidAlerts from 'lucid-alerts';
+
+function MyComponent() {
+    const handleSuccess = () => {
+        LucidAlerts.success('Operation completed!');
+    };
+
+    const handleConfirm = async () => {
+        const result = await LucidAlerts.question('Are you sure?');
+        if (result) {
+            // User confirmed
+            console.log('Confirmed!');
+        }
+    };
+
+    return (
+        &lt;div>
+            &lt;button onClick={handleSuccess}>Show Success&lt;/button>
+            &lt;button onClick={handleConfirm}>Confirm Action&lt;/button>
+        &lt;/div>
+    );
+}
+
+export default MyComponent;</code></pre>
+                    </div>
+                </div>
+
+                <h3>🅰️ Angular Integration</h3>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Angular Service</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-typescript">import { Injectable } from '@angular/core';
+import LucidAlerts from 'lucid-alerts';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class AlertService {
+    
+    success(message: string, title?: string) {
+        return LucidAlerts.success({ title, text: message });
+    }
+
+    error(message: string, title?: string) {
+        return LucidAlerts.error({ title, text: message });
+    }
+
+    confirm(message: string, title?: string): Promise&lt;boolean> {
+        return LucidAlerts.question({ title, text: message });
+    }
+
+    notify(type: string, message: string, position?: string) {
+        return LucidAlerts.notify({
+            type,
+            message,
+            position: position || 'top-right'
+        });
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Angular Component Usage</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-typescript">import { Component } from '@angular/core';
+import { AlertService } from './alert.service';
+
+@Component({
+    selector: 'app-my-component',
+    template: `
+        &lt;button (click)="showSuccess()">Success&lt;/button>
+        &lt;button (click)="confirmDelete()">Delete&lt;/button>
+    `
+})
+export class MyComponent {
+    
+    constructor(private alertService: AlertService) {}
+
+    showSuccess() {
+        this.alertService.success('Operation completed!', 'Success');
+    }
+
+    async confirmDelete() {
+        const confirmed = await this.alertService.confirm(
+            'This action cannot be undone.',
+            'Delete Item'
+        );
+        
+        if (confirmed) {
+            // Proceed with deletion
+            this.alertService.success('Item deleted successfully!');
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <h3>💚 Vue.js Integration</h3>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Vue Plugin</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">// plugins/lucid-alerts.js
+import LucidAlerts from 'lucid-alerts';
+
+export default {
+    install(app) {
+        app.config.globalProperties.$alerts = LucidAlerts;
+        app.provide('alerts', LucidAlerts);
+    }
+};
+
+// main.js
+import { createApp } from 'vue';
+import App from './App.vue';
+import LucidAlertsPlugin from './plugins/lucid-alerts';
+
+const app = createApp(App);
+app.use(LucidAlertsPlugin);
+app.mount('#app');</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Vue Component Usage</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">&lt;template>
+    &lt;div>
+        &lt;button @click="showSuccess">Success&lt;/button>
+        &lt;button @click="confirmAction">Confirm&lt;/button>
+    &lt;/div>
+&lt;/template>
+
+&lt;script>
+import { inject } from 'vue';
+
+export default {
+    setup() {
+        const alerts = inject('alerts');
+
+        const showSuccess = () => {
+            alerts.success('Operation completed!');
+        };
+
+        const confirmAction = async () => {
+            const result = await alerts.question('Are you sure?');
+            if (result) {
+                alerts.success('Action confirmed!');
+            }
+        };
+
+        return {
+            showSuccess,
+            confirmAction
+        };
+    }
+};
+&lt;/script></code></pre>
+                    </div>
+                </div>
+
+                <h3>🎨 Theming & Customization</h3>
+                <p>LucidAlerts supports automatic dark mode detection and manual theme switching.</p>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Theme Management</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">// Set theme manually
+LucidAlerts.setTheme('dark');   // Force dark theme
+LucidAlerts.setTheme('light');  // Force light theme
+LucidAlerts.setTheme('auto');   // Follow system preference
+
+// Custom CSS classes
+LucidAlerts.success({
+    title: 'Custom Styled Alert',
+    text: 'This alert has custom styling',
+    customClass: 'my-custom-alert'
+});
+
+// CSS for custom styling
+/*
+.my-custom-alert {
+    border: 2px solid #10b981;
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+}
+*/</code></pre>
+                    </div>
+                </div>
+
+                <h3>📱 Best Practices</h3>
+                <ul>
+                    <li><strong>Use appropriate alert types:</strong> Success for confirmations, Error for failures, Warning for cautions, Info for general messages.</li>
+                    <li><strong>Keep messages concise:</strong> Users should be able to quickly understand the message.</li>
+                    <li><strong>Use timers wisely:</strong> Auto-close success messages, but let users dismiss errors manually.</li>
+                    <li><strong>Position notifications appropriately:</strong> Top-right for general notifications, center for important alerts.</li>
+                    <li><strong>Handle promises:</strong> Always handle the promise returned by confirmation dialogs.</li>
+                    <li><strong>Respect user preferences:</strong> Use auto theme to respect system dark mode settings.</li>
+                    <li><strong>Test across devices:</strong> Ensure alerts work well on mobile and desktop.</li>
+                </ul>
+
+                <h3>🔧 Configuration Options</h3>
+                <p>All available configuration options for alerts and notifications:</p>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Configuration Reference</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">// Alert options
+const alertOptions = {
+    title: 'Alert Title',           // Alert title
+    text: 'Alert message',          // Alert message
+    type: 'success',                // success, error, warning, info, question
+    confirmText: 'OK',              // Confirm button text
+    cancelText: 'Cancel',           // Cancel button text
+    showCancel: false,              // Show cancel button
+    timer: 0,                       // Auto-close timer (ms)
+    customClass: '',                // Custom CSS class
+    allowOutsideClick: true,        // Close on outside click
+    allowEscapeKey: true            // Close on escape key
+};
+
+// Notification options
+const notificationOptions = {
+    type: 'info',                   // success, error, warning, info
+    title: 'Notification Title',    // Notification title
+    message: 'Notification text',   // Notification message
+    position: 'top-right',          // Position on screen
+    duration: 5000,                 // Auto-close duration (ms)
+    persistent: false,              // Don't auto-close
+    showProgress: false,            // Show progress bar
+    allowClose: true,               // Show close button
+    customClass: ''                 // Custom CSS class
+};
+
+// Form input options
+const inputOptions = {
+    title: 'Input Title',           // Form title
+    placeholder: 'Enter value...',  // Input placeholder
+    value: '',                      // Default value
+    type: 'text',                   // Input type
+    required: false,                // Required field
+    confirmText: 'Submit',          // Submit button text
+    cancelText: 'Cancel'            // Cancel button text
+};</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Reference Tab -->
+        <div id="api" class="tab-content">
+            <div class="integration-guide">
+                <h2>📚 API Reference</h2>
+                <p>Complete API documentation for all LucidAlerts methods and options.</p>
+
+                <h3>🎯 Core Methods</h3>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Basic Alert Methods</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">// Basic alert methods
+LucidAlerts.success(message)           // Success alert
+LucidAlerts.error(message)             // Error alert  
+LucidAlerts.warning(message)           // Warning alert
+LucidAlerts.info(message)              // Info alert
+LucidAlerts.question(message)          // Question/confirmation alert
+
+// Advanced alert method
+LucidAlerts.alert(options)             // Custom alert with full options
+
+// All methods can accept either a string or options object:
+LucidAlerts.success('Simple message');
+LucidAlerts.success({
+    title: 'Success!',
+    text: 'Operation completed',
+    timer: 3000
+});</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Notification Methods</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">// Notification method
+LucidAlerts.notify(options)
+
+// Examples:
+LucidAlerts.notify({
+    type: 'success',
+    message: 'File uploaded successfully!'
+});
+
+LucidAlerts.notify({
+    type: 'error',
+    title: 'Upload Failed',
+    message: 'Please try again later.',
+    position: 'top-center',
+    persistent: true
+});</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Form Input Methods</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">// Input methods
+LucidAlerts.input(options)             // Single text input
+LucidAlerts.select(options)            // Select dropdown
+LucidAlerts.form(options)              // Multiple inputs
+
+// Examples:
+const result = await LucidAlerts.input({
+    title: 'Enter your name',
+    placeholder: 'Your name...'
+});
+
+const selection = await LucidAlerts.select({
+    title: 'Choose option',
+    options: [
+        { value: '1', text: 'Option 1' },
+        { value: '2', text: 'Option 2' }
+    ]
+});
+
+const formData = await LucidAlerts.form({
+    title: 'User Details',
+    inputs: [
+        { name: 'name', type: 'text', placeholder: 'Name' },
+        { name: 'email', type: 'email', placeholder: 'Email' }
+    ]
+});</code></pre>
+                    </div>
+                </div>
+
+                <h3>🛠️ Utility Methods</h3>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Utility Functions</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">// Theme management
+LucidAlerts.setTheme(theme)            // 'light', 'dark', or 'auto'
+LucidAlerts.getTheme()                 // Get current theme
+
+// Alert management
+LucidAlerts.closeAll()                 // Close all alerts and notifications
+LucidAlerts.activeAlerts               // Set of active alerts
+LucidAlerts.activeNotifications        // Set of active notifications
+
+// Examples:
+console.log('Active alerts:', LucidAlerts.activeAlerts.size);
+console.log('Active notifications:', LucidAlerts.activeNotifications.size);
+
+// Close everything
+LucidAlerts.closeAll();</code></pre>
+                    </div>
+                </div>
+
+                <h3>📋 Options Reference</h3>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Alert Options</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">const alertOptions = {
+    // Content
+    title: string,                     // Alert title
+    text: string,                      // Alert message
+    type: string,                      // 'success', 'error', 'warning', 'info', 'question'
+    
+    // Buttons
+    confirmText: string,               // Confirm button text (default: 'OK')
+    cancelText: string,                // Cancel button text (default: 'Cancel')
+    showCancel: boolean,               // Show cancel button (default: false)
+    
+    // Behavior
+    timer: number,                     // Auto-close timer in ms (default: 0 = no timer)
+    allowOutsideClick: boolean,        // Close on outside click (default: true)
+    allowEscapeKey: boolean,           // Close on escape key (default: true)
+    
+    // Styling
+    customClass: string                // Custom CSS class name
+};</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Notification Options</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">const notificationOptions = {
+    // Content
+    type: string,                      // 'success', 'error', 'warning', 'info'
+    title: string,                     // Notification title (optional)
+    message: string,                   // Notification message
+    
+    // Position
+    position: string,                  // 'top-left', 'top-center', 'top-right',
+                                      // 'bottom-left', 'bottom-center', 'bottom-right'
+    
+    // Behavior
+    duration: number,                  // Auto-close duration in ms (default: 5000)
+    persistent: boolean,               // Don't auto-close (default: false)
+    allowClose: boolean,               // Show close button (default: true)
+    
+    // Features
+    showProgress: boolean,             // Show progress bar (default: false)
+    
+    // Styling
+    customClass: string                // Custom CSS class name
+};</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Form Input Options</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">// Single input options
+const inputOptions = {
+    title: string,                     // Form title
+    placeholder: string,               // Input placeholder
+    value: string,                     // Default value
+    type: string,                      // 'text', 'email', 'password', 'number', etc.
+    required: boolean,                 // Required field (default: false)
+    confirmText: string,               // Submit button text (default: 'Submit')
+    cancelText: string                 // Cancel button text (default: 'Cancel')
+};
+
+// Select options
+const selectOptions = {
+    title: string,                     // Form title
+    options: Array,                    // Array of {value, text} objects
+    confirmText: string,               // Submit button text
+    cancelText: string                 // Cancel button text
+};
+
+// Multi-input form options
+const formOptions = {
+    title: string,                     // Form title
+    inputs: Array,                     // Array of input configurations
+    confirmText: string,               // Submit button text
+    cancelText: string                 // Cancel button text
+};
+
+// Input configuration for forms
+const inputConfig = {
+    name: string,                      // Input name (for form data)
+    type: string,                      // Input type
+    placeholder: string,               // Input placeholder
+    value: string,                     // Default value
+    required: boolean                  // Required field
+};</code></pre>
+                    </div>
+                </div>
+
+                <h3>🔄 Return Values</h3>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">Promise Return Values</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">// Alert methods return promises that resolve to:
+// - true if confirmed
+// - false if cancelled or dismissed
+
+const result = await LucidAlerts.question('Delete item?');
+if (result) {
+    console.log('User confirmed');
+} else {
+    console.log('User cancelled');
+}
+
+// Input methods return objects with:
+const inputResult = await LucidAlerts.input('Enter name:');
+// {
+//     isConfirmed: boolean,    // true if submitted, false if cancelled
+//     value: string           // the input value (if confirmed)
+// }
+
+// Form methods return objects with:
+const formResult = await LucidAlerts.form({...});
+// {
+//     isConfirmed: boolean,    // true if submitted, false if cancelled
+//     values: object          // object with input names as keys
+// }
+
+// Example form result:
+// {
+//     isConfirmed: true,
+//     values: {
+//         name: 'John Doe',
+//         email: 'john@example.com'
+//     }
+// }</code></pre>
+                    </div>
+                </div>
+
+                <h3>🎨 CSS Classes</h3>
+                <p>Available CSS classes for customization:</p>
+                
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-title">CSS Class Reference</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-css">/* Alert classes */
+.lucid-backdrop                        /* Alert backdrop/overlay */
+.lucid-alert                          /* Alert container */
+.lucid-alert.success                  /* Success alert */
+.lucid-alert.error                    /* Error alert */
+.lucid-alert.warning                  /* Warning alert */
+.lucid-alert.info                     /* Info alert */
+.lucid-alert.question                 /* Question alert */
+
+/* Notification classes */
+.lucid-notifications                  /* Notification container */
+.lucid-notification                   /* Individual notification */
+.lucid-notification.success           /* Success notification */
+.lucid-notification.error             /* Error notification */
+.lucid-notification.warning           /* Warning notification */
+.lucid-notification.info              /* Info notification */
+
+/* Form classes */
+.lucid-form                          /* Form container */
+.lucid-input                         /* Form inputs */
+.lucid-select                        /* Select dropdowns */
+
+/* Button classes */
+.lucid-button                        /* Alert buttons */
+.lucid-button.primary                /* Primary button */
+.lucid-button.secondary              /* Secondary button */
+
+/* Theme classes */
+[data-theme="light"]                 /* Light theme */
+[data-theme="dark"]                  /* Dark theme */</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Made with ❤️ by the LucidAlerts team. <a href="https://github.com/lucid-alerts/lucid-alerts" target="_blank">View on GitHub</a></p>
+        </footer>
+    </div>
+
+    <!-- Highlight.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/html.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/css.min.js"></script>
+
+    <!-- LucidAlerts Library -->
+    <script src="../dist/lucid-alerts.min.js"></script>
+
+    <script>
+        // Initialize Highlight.js
+        hljs.highlightAll();
+
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked nav tab
+            event.target.classList.add('active');
+        }
+
+        // Copy code functionality
+        function copyCode(button) {
+            const codeBlock = button.closest('.code-block');
+            const code = codeBlock.querySelector('code').textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy code:', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = code;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Theme management
+        function setTheme(theme) {
+            LucidAlerts.setTheme(theme);
+            
+            // Update body theme attribute for demo page
+            if (theme === 'auto') {
+                document.body.removeAttribute('data-theme');
+            } else {
+                document.body.setAttribute('data-theme', theme);
+            }
+        }
+
+        // Demo functions (preserving all original functionality)
+        function showBasicAlert() {
+            LucidAlerts.alert('This is a basic alert message!');
+        }
+
+        function showSuccessAlert() {
+            LucidAlerts.success({
+                title: 'Success!',
+                text: 'Your operation was completed successfully.',
+                timer: 3000
+            });
+        }
+
+        function showErrorAlert() {
+            LucidAlerts.error({
+                title: 'Error!',
+                text: 'Something went wrong. Please try again.',
+                confirmText: 'Try Again'
+            });
+        }
+
+        function showWarningAlert() {
+            LucidAlerts.warning({
+                title: 'Warning!',
+                text: 'Please review your input before proceeding.',
+                showCancel: true
+            });
+        }
+
+        function showInfoAlert() {
+            LucidAlerts.info({
+                title: 'Information',
+                text: 'Here is some important information you should know.',
+                confirmText: 'Got it!'
+            });
+        }
+
+        function showQuestionAlert() {
+             LucidAlerts.question({
+                 title: 'Confirmation',
+                 text: 'Are you sure you want to proceed with this action?',
+                 confirmText: 'Yes, proceed',
+                 cancelText: 'No, cancel'
+             }).then(result => {
+                 if (result) {
+                     LucidAlerts.success('Action confirmed!');
+                 } else {
+                     LucidAlerts.info('Action cancelled.');
+                 }
+             });
+         }
+
+         function showTimerAlert() {
+             LucidAlerts.info({
+                 title: 'Auto Close Timer',
+                 text: 'This alert will automatically close in 5 seconds.',
+                 timer: 5000
+             });
+         }
+
+         function showCallbackAlert() {
+             LucidAlerts.question('Do you want to see a callback example?')
+                 .then(result => {
+                     if (result) {
+                         return LucidAlerts.success('Great! Callbacks make async handling easy.');
+                     } else {
+                         return LucidAlerts.info('No problem! You can try it anytime.');
+                     }
+                 });
+         }
+
+         function showConfirmAlert() {
+             LucidAlerts.warning({
+                 title: 'Delete Item',
+                 text: 'This action cannot be undone. Are you sure?',
+                 showCancel: true,
+                 confirmText: 'Yes, delete',
+                 cancelText: 'Cancel'
+             }).then(result => {
+                 if (result) {
+                     LucidAlerts.success('Item deleted successfully!');
+                 }
+             });
+         }
+
+         function showCustomAlert() {
+             LucidAlerts.success({
+                 title: 'Custom Styled Alert',
+                 text: 'This alert demonstrates custom styling options.',
+                 confirmText: 'Awesome!',
+                 customClass: 'custom-demo-alert'
+             });
+         }
+
+         function showInputAlert() {
+             LucidAlerts.input({
+                 title: 'Enter Your Name',
+                 placeholder: 'Your name here...',
+                 confirmText: 'Submit'
+             }).then(result => {
+                 if (result.isConfirmed) {
+                     LucidAlerts.success(`Hello, ${result.value}!`);
+                 }
+             });
+         }
+
+         function showSelectAlert() {
+             LucidAlerts.select({
+                 title: 'Choose Your Favorite Color',
+                 options: [
+                     { value: 'blue', text: '🔵 Blue' },
+                     { value: 'red', text: '🔴 Red' },
+                     { value: 'green', text: '🟢 Green' },
+                     { value: 'purple', text: '🟣 Purple' }
+                 ]
+             }).then(result => {
+                 if (result.isConfirmed) {
+                     LucidAlerts.success(`You chose ${result.value}!`);
+                 }
+             });
+         }
+
+         function showMultiInputAlert() {
+             LucidAlerts.form({
+                 title: 'User Registration',
+                 inputs: [
+                     { name: 'username', type: 'text', placeholder: 'Username', required: true },
+                     { name: 'email', type: 'email', placeholder: 'Email', required: true },
+                     { name: 'age', type: 'number', placeholder: 'Age' }
+                 ]
+             }).then(result => {
+                 if (result.isConfirmed) {
+                     LucidAlerts.success(`Welcome ${result.values.username}!`);
+                 }
+             });
+         }
+
+         function showFormWizard() {
+             async function runWizard() {
+                 try {
+                     // Step 1
+                     const step1 = await LucidAlerts.form({
+                         title: 'Step 1: Personal Info',
+                         inputs: [
+                             { name: 'name', type: 'text', placeholder: 'Full Name', required: true },
+                             { name: 'email', type: 'email', placeholder: 'Email', required: true }
+                         ]
+                     });
+
+                     if (!step1.isConfirmed) return;
+
+                     // Step 2
+                     const step2 = await LucidAlerts.form({
+                         title: 'Step 2: Preferences',
+                         inputs: [
+                             { name: 'theme', type: 'text', placeholder: 'Preferred Theme (light/dark)' },
+                             { name: 'notifications', type: 'text', placeholder: 'Email Notifications (yes/no)' }
+                         ]
+                     });
+
+                     if (!step2.isConfirmed) return;
+
+                     // Completion
+                     await LucidAlerts.success({
+                         title: 'Wizard Complete!',
+                         text: `Welcome ${step1.values.name}! Your preferences have been saved.`
+                     });
+
+                 } catch (error) {
+                     LucidAlerts.error('Wizard was cancelled or an error occurred.');
+                 }
+             }
+             runWizard();
+         }
+
+         function showNotification(position) {
+             LucidAlerts.notify({
+                 type: 'info',
+                 title: 'Position Demo',
+                 message: `This notification is positioned at ${position}`,
+                 position: position,
+                 duration: 3000
+             });
+         }
+
+         function showProgressNotification() {
+             LucidAlerts.notify({
+                 type: 'info',
+                 title: 'Uploading File...',
+                 message: 'Please wait while we upload your file.',
+                 position: 'bottom-right',
+                 showProgress: true,
+                 duration: 8000
+             });
+         }
+
+         function showPersistentNotification() {
+             LucidAlerts.notify({
+                 type: 'warning',
+                 title: 'Important Notice',
+                 message: 'This notification will stay until you dismiss it manually.',
+                 position: 'top-center',
+                 persistent: true
+             });
+         }
+
+         function showActionNotification() {
+             LucidAlerts.notify({
+                 type: 'success',
+                 title: 'File Uploaded',
+                 message: 'Your file has been uploaded successfully. Click to view.',
+                 position: 'top-right',
+                 duration: 6000,
+                 onClick: () => {
+                     LucidAlerts.info('You clicked the notification!');
+                 }
+             });
+         }
+
+         function showMultipleAlerts() {
+             LucidAlerts.info('Alert 1: This is the first alert');
+             setTimeout(() => LucidAlerts.warning('Alert 2: This is the second alert'), 500);
+             setTimeout(() => LucidAlerts.success('Alert 3: This is the third alert'), 1000);
+             
+             // Show notifications too
+             LucidAlerts.notify({
+                 type: 'info',
+                 message: 'Notification 1',
+                 position: 'top-left'
+             });
+             LucidAlerts.notify({
+                 type: 'warning',
+                 message: 'Notification 2',
+                 position: 'top-right'
+             });
+         }
+
+         function showActiveCount() {
+             const alertCount = LucidAlerts.activeAlerts.size;
+             const notificationCount = LucidAlerts.activeNotifications.size;
+             
+             LucidAlerts.info({
+                 title: 'Active Elements',
+                 text: `Currently active:\n• Alerts: ${alertCount}\n• Notifications: ${notificationCount}`
+             });
+         }
+
+         function showStressTest() {
+             LucidAlerts.question('This will create many notifications. Continue?')
+                 .then(result => {
+                     if (result) {
+                         const positions = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
+                         const types = ['success', 'error', 'warning', 'info'];
+                         
+                         for (let i = 0; i < 8; i++) {
+                             setTimeout(() => {
+                                 LucidAlerts.notify({
+                                     type: types[i % types.length],
+                                     title: `Notification ${i + 1}`,
+                                     message: `This is stress test notification #${i + 1}`,
+                                     position: positions[i % positions.length],
+                                     duration: 3000
+                                 });
+                             }, i * 200);
+                         }
+                     }
+                 });
+         }
+
+         function showThemeDemo(theme) {
+             const originalTheme = LucidAlerts.getTheme();
+             
+             // Temporarily set the theme
+             LucidAlerts.setTheme(theme);
+             
+             LucidAlerts.success({
+                 title: `${theme.charAt(0).toUpperCase() + theme.slice(1)} Theme Demo`,
+                 text: `This alert is displayed in ${theme} theme mode.`,
+                 timer: 3000
+             }).then(() => {
+                 // Restore original theme
+                 LucidAlerts.setTheme(originalTheme);
+             });
+             
+             // Show a notification too
+             setTimeout(() => {
+                 LucidAlerts.notify({
+                     type: 'info',
+                     title: 'Theme Notification',
+                     message: `This notification also uses ${theme} theme.`,
+                     position: 'top-right',
+                     duration: 3000
+                 });
+             }, 500);
+         }
+
+         // Initialize demo
+         document.addEventListener('DOMContentLoaded', function() {
+             // Show welcome message
+             setTimeout(() => {
+                 LucidAlerts.success({
+                     title: 'Welcome to LucidAlerts! ✨',
+                     text: 'Explore all the features using the interactive demos, code examples, and integration guides.',
+                     timer: 4000
+                 });
+             }, 1000);
+         });
+     </script>
+</body>
+</html>
