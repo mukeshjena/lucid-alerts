@@ -48,9 +48,7 @@
   transform: scale(0.7) translateY(20px);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid var(--lucid-border);
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .lucid-backdrop.show .lucid-alert {
@@ -266,9 +264,7 @@
   gap: 0.75rem;
   position: relative;
   overflow: hidden;
-  box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .lucid-notification.show {
@@ -388,8 +384,7 @@
 }
 
 /* Light Theme */
-[data-theme='light'],
-:root {
+[data-theme="light"], :root {
   --lucid-bg: #ffffff;
   --lucid-text: #1f2937;
   --lucid-text-secondary: #6b7280;
@@ -403,7 +398,7 @@
 }
 
 /* Dark Theme */
-[data-theme='dark'] {
+[data-theme="dark"] {
   --lucid-bg: #1f2937;
   --lucid-text: #f9fafb;
   --lucid-text-secondary: #d1d5db;
@@ -425,7 +420,7 @@
 
 /* Auto theme detection */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
+  :root:not([data-theme="light"]) {
     --lucid-bg: #1f2937;
     --lucid-text: #f9fafb;
     --lucid-text-secondary: #d1d5db;
@@ -501,45 +496,45 @@
 
 /* Keyframe Animations */
 @keyframes lucidFadeIn {
-  from {
-    opacity: 0;
+  from { 
+    opacity: 0; 
     transform: scale(0.95);
   }
-  to {
-    opacity: 1;
+  to { 
+    opacity: 1; 
     transform: scale(1);
   }
 }
 
 @keyframes lucidFadeOut {
-  from {
-    opacity: 1;
+  from { 
+    opacity: 1; 
     transform: scale(1);
   }
-  to {
-    opacity: 0;
+  to { 
+    opacity: 0; 
     transform: scale(0.95);
   }
 }
 
 @keyframes lucidSlideInRight {
-  from {
-    transform: translateX(100%) scale(0.95);
+  from { 
+    transform: translateX(100%) scale(0.95); 
     opacity: 0;
   }
-  to {
-    transform: translateX(0) scale(1);
+  to { 
+    transform: translateX(0) scale(1); 
     opacity: 1;
   }
 }
 
 @keyframes lucidSlideOutRight {
-  from {
-    transform: translateX(0) scale(1);
+  from { 
+    transform: translateX(0) scale(1); 
     opacity: 1;
   }
-  to {
-    transform: translateX(100%) scale(0.95);
+  to { 
+    transform: translateX(100%) scale(0.95); 
     opacity: 0;
   }
 }
@@ -613,9 +608,7 @@
 }
 
 .lucid-input:focus {
-  box-shadow:
-    0 0 0 3px rgba(59, 130, 246, 0.1),
-    0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
   will-change: transform, box-shadow;
 }
@@ -642,12 +635,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transition: left 0.5s ease;
 }
 
@@ -733,7 +721,7 @@
 
 /* Enhanced Alert Shadow and Border */
 .lucid-alert {
-  box-shadow:
+  box-shadow: 
     0 25px 50px -12px rgba(0, 0, 0, 0.25),
     0 0 0 1px rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -743,7 +731,7 @@
 
 /* Enhanced Notification Styling */
 .lucid-notification {
-  box-shadow:
+  box-shadow: 
     0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04),
     0 0 0 1px rgba(255, 255, 255, 0.05);
@@ -762,11 +750,7 @@
 
 /* Modern Progress Bar */
 .lucid-notification-progress {
-  background: linear-gradient(
-    90deg,
-    var(--lucid-primary),
-    var(--lucid-primary-dark)
-  );
+  background: linear-gradient(90deg, var(--lucid-primary), var(--lucid-primary-dark));
   box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
 }
 
@@ -791,25 +775,25 @@
 }
 
 /* Modern Dark Mode Enhancements */
-[data-theme='dark'] .lucid-alert {
+[data-theme="dark"] .lucid-alert {
   background: rgba(31, 41, 55, 0.95);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-[data-theme='dark'] .lucid-notification {
+[data-theme="dark"] .lucid-notification {
   background: rgba(31, 41, 55, 0.95);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-[data-theme='dark'] .lucid-input {
+[data-theme="dark"] .lucid-input {
   background: rgba(55, 65, 81, 0.8);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-[data-theme='dark'] .lucid-button.cancel {
+[data-theme="dark"] .lucid-button.cancel {
   background: rgba(55, 65, 81, 0.8);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
