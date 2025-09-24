@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2024-01-20
+
+### Fixed
+- Fixed GitHub release pipeline NPM authentication issue
+- Resolved `ENEEDAUTH` error in automated publishing workflow
+- Fixed package.json repository URL format for proper NPM integration
+
+### Changed
+- Updated README.md with correct GitHub repository URLs
+- Improved CDN installation instructions with version-specific links
+- Enhanced documentation with pipeline status badges
+- Updated support links and author information
+
+### Infrastructure
+- Configured NPM_TOKEN secret for automated publishing
+- Cleaned up previous releases for stable version deployment
+- Improved CI/CD pipeline reliability
+- Added automated release workflow verification
+
 ### Added
 - Initial release of LucidAlerts
 - Modern alert and notification system
@@ -50,6 +69,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 
 ## Release Notes
+
+### Version 1.1.1 (Current Stable)
+This release focuses on infrastructure improvements and pipeline reliability. The GitHub release workflow now properly publishes to NPM with automated authentication, ensuring consistent and reliable releases.
 
 ### Version 1.0.0
 This is the initial stable release of LucidAlerts, providing a modern alternative to traditional alert libraries with built-in dark mode support and responsive design.

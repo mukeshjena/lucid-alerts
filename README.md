@@ -4,8 +4,12 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Downloads](https://img.shields.io/npm/dm/lucid-alerts.svg)](https://www.npmjs.com/package/lucid-alerts)
 [![Bundle Size](https://img.shields.io/bundlephobia/minzip/lucid-alerts)](https://bundlephobia.com/package/lucid-alerts)
+[![GitHub Release](https://img.shields.io/github/v/release/mukeshjena/lucid-alerts)](https://github.com/mukeshjena/lucid-alerts/releases)
+[![CI/CD Pipeline](https://github.com/mukeshjena/lucid-alerts/actions/workflows/ci.yml/badge.svg)](https://github.com/mukeshjena/lucid-alerts/actions)
 
 A modern, lightweight, and highly customizable JavaScript library for alerts and notifications. A beautiful alternative to SweetAlert2 and Notyf with built-in dark/light mode support and responsive design.
+
+🎉 **Latest Release: v1.1.1** - Now with improved build pipeline and stable NPM publishing!
 
 ## ✨ Features
 
@@ -41,13 +45,19 @@ yarn add lucid-alerts
 #### jsDelivr
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/lucid-alerts@latest/dist/lucid-alerts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucid-alerts@1.1.1/dist/lucid-alerts.min.js"></script>
 ```
 
 #### unpkg
 
 ```html
-<script src="https://unpkg.com/lucid-alerts@latest/dist/lucid-alerts.min.js"></script>
+<script src="https://unpkg.com/lucid-alerts@1.1.1/dist/lucid-alerts.min.js"></script>
+```
+
+#### Latest Version (Auto-updates)
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/lucid-alerts@latest/dist/lucid-alerts.min.js"></script>
 ```
 
 ## 📖 Usage
@@ -75,7 +85,7 @@ LucidAlerts.error('Something went wrong!');
 ### Browser Script
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/lucid-alerts@latest/dist/lucid-alerts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucid-alerts@1.1.1/dist/lucid-alerts.min.js"></script>
 <script>
   LucidAlerts.info('Welcome to LucidAlerts!');
 </script>
@@ -248,7 +258,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 ### Development Setup
 
 1. Fork the repository
-2. Clone your fork: `git clone https://github.com/yourusername/lucid-alerts.git`
+2. Clone your fork: `git clone https://github.com/mukeshjena/lucid-alerts.git`
 3. Install dependencies: `npm install`
 4. Start development: `npm run dev`
 5. Build for production: `npm run build:all`
@@ -272,10 +282,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 📖 [Documentation](https://github.com/yourusername/lucid-alerts#readme)
-- 🐛 [Issue Tracker](https://github.com/yourusername/lucid-alerts/issues)
-- 💬 [Discussions](https://github.com/yourusername/lucid-alerts/discussions)
+- 📖 [Documentation](https://github.com/mukeshjena/lucid-alerts#readme)
+- 🐛 [Issue Tracker](https://github.com/mukeshjena/lucid-alerts/issues)
+- 💬 [Discussions](https://github.com/mukeshjena/lucid-alerts/discussions)
+- 🌐 [Demo Site](https://mukeshjena.github.io/lucid-alerts/)
 
 ---
 
-Made with ❤️ by [Your Name](https://github.com/yourusername)
+Made with ❤️ by [Mukesh Jena](https://github.com/mukeshjena)
