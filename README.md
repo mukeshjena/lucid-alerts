@@ -9,7 +9,7 @@
 
 A modern, lightweight, and highly customizable JavaScript library for alerts and notifications. A beautiful alternative to SweetAlert2 and Notyf with built-in dark/light mode support and responsive design.
 
-🎉 **Latest Release: v1.1.1** - Now with improved build pipeline and stable NPM publishing!
+🎉 **Latest Release: v1.1.3** - Updated documentation and stable release with latest features!
 
 ## ✨ Features
 
@@ -45,13 +45,13 @@ yarn add lucid-alerts
 #### jsDelivr
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/lucid-alerts@1.1.1/dist/lucid-alerts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucid-alerts@1.1.3/dist/lucid-alerts.min.js"></script>
 ```
 
 #### unpkg
 
 ```html
-<script src="https://unpkg.com/lucid-alerts@1.1.1/dist/lucid-alerts.min.js"></script>
+<script src="https://unpkg.com/lucid-alerts@1.1.3/dist/lucid-alerts.min.js"></script>
 ```
 
 #### Latest Version (Auto-updates)
@@ -85,7 +85,7 @@ LucidAlerts.error('Something went wrong!');
 ### Browser Script
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/lucid-alerts@1.1.1/dist/lucid-alerts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucid-alerts@1.1.3/dist/lucid-alerts.min.js"></script>
 <script>
   LucidAlerts.info('Welcome to LucidAlerts!');
 </script>

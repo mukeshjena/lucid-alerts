@@ -17,10 +17,10 @@
 ### CDN (Recommended)
 ```html
 <!-- Minified version for production -->
-<script src="https://cdn.jsdelivr.net/npm/lucid-alerts@1.0.0/dist/lucid-alerts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucid-alerts@1.1.3/dist/lucid-alerts.min.js"></script>
 
 <!-- Development version -->
-<script src="https://cdn.jsdelivr.net/npm/lucid-alerts@1.0.0/dist/lucid-alerts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucid-alerts@1.1.3/dist/lucid-alerts.js"></script>
 ```
 
 ### ES Module

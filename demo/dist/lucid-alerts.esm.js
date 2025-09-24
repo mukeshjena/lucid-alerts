@@ -30,7 +30,7 @@ styleInject(css_248z);
 
 /**
  * LucidAlerts - A modern, lightweight alert and notification library
- * Version: 1.0.0
+ * Version: 1.1.3
  * Author: LucidAlerts Team
  * License: MIT
  */
