@@ -105,6 +105,11 @@ jobs:
     - name: Build project
       run: npm run build:all
 
+    - name: Copy dist files to demo
+      run: |
+        mkdir -p demo/dist
+        cp -r dist/* demo/dist/
+
     - name: Setup Pages
       uses: actions/configure-pages@v4
 
